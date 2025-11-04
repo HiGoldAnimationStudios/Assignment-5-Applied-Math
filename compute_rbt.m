@@ -12,7 +12,7 @@
 function Plist_world = compute_rbt(x,y,theta,Plist_box)
     Plist_world=zeros(size(Plist_box));
     rotate_matrix=[cos(theta), -sin(theta); sin(theta), cos(theta)];
-    for i=1:length(Plist_box)
-        Plist_world(:,i)=rotate_matrix*Plist_box+[x;y];
+    for i=1:size(Plist_box,2)
+        Plist_world(:,i)=rotate_matrix*Plist_box(:,i)+[x;y];
     end
 end

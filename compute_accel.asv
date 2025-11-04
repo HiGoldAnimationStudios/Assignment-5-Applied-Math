@@ -33,11 +33,9 @@ function [ax,ay,atheta] = compute_accel(x,y,theta,box_params)
     F_total=0;
     PxF_total=0;
     for i=1:length(k_list)
-        PA=Plist_box(i);
-        PB=Plist_world(i);
         F = compute_spring_force(k_list(i),l0_list(i),PA,PB);
         F_total=F_total+F;
-        PxF_total=PxF_total+()
+        PxF_total=
     end
 
     
