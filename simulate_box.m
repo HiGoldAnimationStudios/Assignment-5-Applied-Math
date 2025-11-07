@@ -1,8 +1,11 @@
 function simulate_box()
+LW = 10; LH = 1; LG = 3;
+
+
 %define system parameters
 box_params = struct();
-box_params.m = %your code here
-box_params.I = %your code here
+box_params.m = 1;%your code here
+box_params.I = (1/12)*(LH^2+LW^2);%your code here
 box_params.g = %your code here
 box_params.k_list = %your code here
 box_params.l0_list = %your code here
@@ -17,7 +20,6 @@ theta0 = %your code here
 vx0 = %your code here
 vy0 = %your code here
 vtheta0 = %your code here
-6
 V0 = [x0;y0;theta0;vx0;vy0;vtheta0];
 tspan = %your code here
 %run the integration
