@@ -24,35 +24,17 @@ function simulate_box()
     box_params.P_world = P_world;
     box_params.P_box = P_box;
     box_params.boundary_pts = boundary_pts;
-
-
-    Fehlberg = struct();
-    Fehlberg.C = [0, 1/4, 3/8, 12/13, 1, 1/2];
-    Fehlberg.B = [16/135, 0, 6656/12825, 28561/56430, -9/50, 2/55;...
-    25/216, 0, 1408/2565, 2197/4104, -1/5, 0];
-    Fehlberg.A = [0,0,0,0,0,0;...
-    1/4, 0,0,0,0,0;...
-    3/32, 9/32, 0,0,0,0;...
-    1932/2197, -7200/2197, 7296/2197, 0,0,0;...
-    439/216, -8, 3680/513, -845/4104, 0,0;...
-    -8/27, 2, -3544/2565, 1859/4104, -11/40, 0];
-    h_ref = 2.8;
-    error_desired = 10^-6;
-    p=5;
-
-
     %load the system parameters into the rate function
     %via an anonymous function
     my_rate_func = @(t_in,V_in) box_rate_func(t_in,V_in,box_params);
-    x0 =1;       %your code here
-    y0 =2;       %your code here
-    theta0 = 10;   %your code here
-    vx0 = 3;      %your code here
-    vy0 = 2;     %your code here
-    vtheta0 = 1;   %your code here
+    x0 =        %your code here
+    y0 =        %your code here
+    theta0 =    %your code here
+    vx0 =       %your code here
+    vy0 =       %your code here
+    vtheta0 =   %your code here
     V0 = [x0;y0;theta0;vx0;vy0;vtheta0];
-    tspan = [0 10];    %your code here
+    tspan =     %your code here
     %run the integration
-    [t_list,X_list,h_avg, num_evals, fail_rate, h_rec] = explicit_RK_variable_step_integration(my_rate_func,tspan,V0,h_ref,Fehlberg, p, error_desired);
-    plot(X_list(1,:), X_list(2,:))
+    [tlist,Vlist] = your_integrator(my_rate_func,tspan,V0,)
 end
