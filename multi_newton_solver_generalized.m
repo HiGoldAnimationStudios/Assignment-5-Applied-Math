@@ -19,7 +19,7 @@
 %OUTPUTS:
 %x: the estimate of the root computed by the function
 % exit_flag: an integer indicating whether or not the solver succeeded
-function [x, exit_flag, num_evals] = multi_newton_solver_generalized(fun,x_guess,solver_params)
+function [x, exit_flag, num_evals, J] = multi_newton_solver_generalized(fun,x_guess,solver_params)
 %unpack values from struct (if fields in struct have been set)
     dxtol = 1e-14;
     if isfield(solver_params,'dxtol')
@@ -58,6 +58,7 @@ function [x, exit_flag, num_evals] = multi_newton_solver_generalized(fun,x_guess
         %no J
         fval=fun(x_guess);
         [J,num_evals_1]=approximate_jacobian(fun, x_guess);
+        
         num_evals=num_evals+num_evals_1;
     end
 

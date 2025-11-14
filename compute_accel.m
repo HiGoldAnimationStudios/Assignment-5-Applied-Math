@@ -29,13 +29,13 @@ function [ax,ay,atheta] = compute_accel(x,y,theta,box_params)
     P_world=box_params.P_world;
     P_box=box_params.P_box;
     Plist_box = compute_rbt(x,y,theta,P_box);
-    Plist_world = compute_rbt(x,y,theta,P_world);
+    Plist_world = P_world;
     F_total=0;
     PxF_total=0;
     for i=1:length(k_list)
         PA=Plist_box(:,i);
         PB=Plist_world(:,i);
-        F = compute_spring_force(k_list(i),l0_list(i),PA,PB);
+        F = compute_spring_force(k_list(i),l0_list(i),PB,PA);
         F_total=F_total+F;
         r = PA - [x; y];
 
