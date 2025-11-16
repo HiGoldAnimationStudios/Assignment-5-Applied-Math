@@ -1,5 +1,5 @@
 function tester()
-    LW = 10; LH = 1; LG = 3;
+    LW = 10; LH = 5; LG = 5;
     m = 1; Ic = (1/12)*(LH^2+LW^2);
     g = 1; k = 20; k_list = [.5*k,.5*k,2*k,5*k];
     l0 = 1.5*LG;
@@ -10,9 +10,13 @@ function tester()
     boundary_pts = [Pbl_box,Pbr_box,Ptr_box,Ptl_box,Pbl_box];
     Pbl1_world = Pbl_box + [-LG;-LG];
     Pbl2_world = Pbl_box + [LG;-LG];
-    Pbr1_world = Pbr_box + [0;-l0];
-    Pbr2_world = Pbr_box + [l0;0];
-    P_world = [Pbl1_world,Pbl2_world,Pbr1_world,Pbr2_world];
+    Pbr1_world = Pbr_box + [LG;-LG];
+    Pbr2_world = Pbr_box + [LG;LG];
+    Ptl1_world = Ptl_box + [-LG;LG];
+    Ptl2_world = Ptl_box + [-LG;-LG];
+    Ptr1_world = Ptr_box + [LG;LG];
+    Ptr2_world = Ptr_box + [-LG;LG];
+    P_world = [Pbl1_world,Pbl2_world,Pbr1_world,Pbr2_world, Ptl1_world, Ptl2_world, Ptr1_world, Ptr2_world];
     P_box = [Pbl_box,Pbl_box,Pbr_box,Pbr_box];
     %define system parameters
     box_params = struct();
@@ -134,4 +138,6 @@ function tester()
     legend("Location","best");
     xlabel("time")
     ylabel("theta modal");
+
+    animate_simulation(t_list, X_list, box_params)
 end
