@@ -88,19 +88,11 @@ function tester()
     
     subplot(2,1,1)
     hold on
-    plot(t_list,X_list(1,:),'r', "DisplayName","x")
-    plot(t_list,X_list(2,:),'b',"DisplayName","y")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("x and y");
-    
+    plot(t_list,X_list(1,:),'r')
+    plot(t_list,X_list(2,:),'b')
     
     subplot(2,1,2)
-    plot(t_list,X_list(3,:),'b', "DisplayName","theta")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("theta");
-
+    plot(t_list,X_list(3,:),'b')
 
     Q   = -J_approx(4:6, 1:3);
     [U_modes, lambda] = eig(Q);                      
@@ -117,21 +109,12 @@ function tester()
     
     subplot(2,1,1)
     hold on
-    plot(t_list,x_modal(1,:),'r',"DisplayName","x modal_1")
-    plot(t_list,x_modal(2,:),'r--',"DisplayName","x modal_2")
-    plot(t_list,x_modal(3,:),'r:',"DisplayName","x modal_3")
-    plot(t_list,y_modal(1,:),'b',"DisplayName","y modal_1")
-    plot(t_list,y_modal(2,:),'b--',"DisplayName","y modal_2")
-    plot(t_list,y_modal(3,:),'b:',"DisplayName","y modal_3")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("x and y modal");
+    plot(t_list,x_modal,'r',"DisplayName","x_modal")
+    plot(t_list,y_modal,'b',"DisplayName","y_modal")
+    legend("Location","");
+    x_label("time")
+    y_label("x and y modal");
     subplot(2,1,2)
-    hold on
-    plot(t_list,theta_modal(1,:),'r',"DisplayName","theta modal_1")
-    plot(t_list,theta_modal(2,:),'r--',"DisplayName","theta modal_2")
-    plot(t_list,theta_modal(3,:),'r:',"DisplayName","theta modal_3")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("theta modal");
+    plot(t_list,theta_modal,'b',"DisplayName","theta_modal")
+
 end
