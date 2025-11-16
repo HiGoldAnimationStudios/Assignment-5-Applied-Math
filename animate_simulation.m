@@ -1,5 +1,13 @@
 function animate_simulation(tlist, Vlist, box_params)
-    figure('color','w');
+    mypath1 = 'C:\Users\jvidaurrazaga\Downloads\';
+    fname='box_animation.avi';
+    input_fname = [mypath1,fname];
+    writerObj = VideoWriter(input_fname);
+    open(writerObj);
+    fig1 = figure('color','w');
+
+
+    
     axis equal; hold on;
 
     all_positions = Vlist(1:2,:);
@@ -41,6 +49,11 @@ function animate_simulation(tlist, Vlist, box_params)
 
         title(sprintf('t = %.2f s', tlist(k)));
         drawnow;
+        current_frame = getframe(fig1);
+        %write the frame to the video
+        writeVideo(writerObj,current_frame);
         pause(0.001);
     end
+
+    close(writerObj);
 end

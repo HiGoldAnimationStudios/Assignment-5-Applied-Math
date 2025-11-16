@@ -1,23 +1,25 @@
 function tester()
-    LW = 10; LH = 5; LG = 5;
+    clf;
+    clear all;
+    LW = 10; LH = 7.5; LG = 3;
     m = 1; Ic = (1/12)*(LH^2+LW^2);
-    g = 1; k = 20; k_list = [.5*k,.5*k,2*k,5*k];
+    g = 1; k = 20; k_list = [2.5*k, 3.5*k,  2*k, 1.5*k,  0.5*k, 0.5*k,  2*k, 2.5*k];
     l0 = 1.5*LG;
     Pbl_box = [-LW;-LH]/2;
     Pbr_box = [LW;-LH]/2;
     Ptl_box = [-LW;LH]/2;
     Ptr_box = [LW;LH]/2;
     boundary_pts = [Pbl_box,Pbr_box,Ptr_box,Ptl_box,Pbl_box];
-    Pbl1_world = Pbl_box + [-LG;-LG];
-    Pbl2_world = Pbl_box + [LG;-LG];
-    Pbr1_world = Pbr_box + [LG;-LG];
-    Pbr2_world = Pbr_box + [LG;LG];
-    Ptl1_world = Ptl_box + [-LG;LG];
-    Ptl2_world = Ptl_box + [-LG;-LG];
-    Ptr1_world = Ptr_box + [LG;LG];
-    Ptr2_world = Ptr_box + [-LG;LG];
+    Pbl1_world = Pbl_box + [-LG/4;-LG]*1.5;
+    Pbl2_world = Pbl_box + [LG;-LG]*1.5;
+    Pbr1_world = Pbr_box + [LG;-LG/4]*1.5;
+    Pbr2_world = Pbr_box + [LG;LG]*1.5;
+    Ptl1_world = Ptl_box + [-LG;LG/4]*1.5;
+    Ptl2_world = Ptl_box + [-LG;-LG]*1.5;
+    Ptr1_world = Ptr_box + [LG/4;LG]*1.5;
+    Ptr2_world = Ptr_box + [-LG;LG]*1.5;
     P_world = [Pbl1_world,Pbl2_world,Pbr1_world,Pbr2_world, Ptl1_world, Ptl2_world, Ptr1_world, Ptr2_world];
-    P_box = [Pbl_box,Pbl_box,Pbr_box,Pbr_box];
+    P_box = [Pbl_box,Pbl_box,Pbr_box,Pbr_box, Ptl_box, Ptl_box, Ptr_box, Ptr_box];
     %define system parameters
     box_params = struct();
     box_params.m = m;
@@ -54,7 +56,7 @@ function tester()
     vy0 = 0;     %your code here
     vtheta0 = 0;   %your code here
     V0 = [x0;y0;theta0;vx0;vy0;vtheta0];
-    tspan = [0 10];    %your code here
+    tspan = [0 5];    %your code here
 
     solver_params=struct();
     solver_params.dx_tol=1e-14;
@@ -76,7 +78,7 @@ function tester()
     %small number used to scale initial perturbation
     epsilon = 1; %your code here
     V0 = Veq + epsilon*[dx0;dy0;dtheta0;vx0;vy0;vtheta0];
-    tspan = [0 10]; %your code here
+    tspan = [0 5]; %your code here
     %run the integration of nonlinear system
     % [tlist_nonlinear,Vlist_nonlinear] =...
     % your_integrator(my_rate_func,tspan,V0,...);
@@ -138,6 +140,9 @@ function tester()
     legend("Location","best");
     xlabel("time")
     ylabel("theta modal");
+
+
+    
 
     animate_simulation(t_list, X_list, box_params)
 end
