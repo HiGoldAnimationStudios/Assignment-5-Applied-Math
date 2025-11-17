@@ -1,6 +1,6 @@
 function animate_simulation(tlist, Vlist, box_params)
     mypath1 = 'C:\Users\jvidaurrazaga\Downloads\';
-    fname='box_animation.avi';
+    fname='box_animation.mp4';
     input_fname = [mypath1,fname];
     writerObj = VideoWriter(input_fname);
     open(writerObj);

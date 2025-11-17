@@ -76,7 +76,7 @@ function tester()
     vy0 = 1;%your code here
     vtheta0 = 1;%your code here
     %small number used to scale initial perturbation
-    epsilon = 1; %your code here
+    epsilon = 0.067; %your code here
     V0 = Veq + epsilon*[dx0;dy0;dtheta0;vx0;vy0;vtheta0];
     tspan = [0 5]; %your code here
     %run the integration of nonlinear system
@@ -87,62 +87,63 @@ function tester()
     % your_integrator(my_linear_rate,tspan,V0,...);
 
     %run the integration
-    [t_list,X_list,~, ~, ~, ~] = explicit_RK_variable_step_integration(my_rate_func,tspan,V0,h_ref,Fehlberg, p, error_desired);
+    [t_list_nonlinear,V_list_nonlinear,~, ~, ~, ~] = explicit_RK_variable_step_integration(my_rate_func,tspan,V0,h_ref,Fehlberg, p, error_desired);
+    [t_list_linear,V_list_linear,~, ~, ~, ~] = explicit_RK_variable_step_integration(my_linear_rate,tspan,V0,h_ref,Fehlberg, p, error_desired);
     %[t_list,X_list] = ode45(my_rate_func,tspan,V0);
 
-    figure(1)
-    
-    subplot(2,1,1)
-    hold on
-    plot(t_list,X_list(1,:),'r', "DisplayName","x")
-    plot(t_list,X_list(2,:),'b',"DisplayName","y")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("x and y");
-    
-    
-    subplot(2,1,2)
-    plot(t_list,X_list(3,:),'b', "DisplayName","theta")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("theta");
+    delta_x_list_nonlinear=V_list_nonlinear(1,:)-Veq(1);
+    delta_y_list_nonlinear=V_list_nonlinear(2,:)-Veq(2);
+    delta_theta_list_nonlinear=V_list_nonlinear(3,:)-Veq(3);
+    delta_x_list_linear=V_list_linear(1,:)-Veq(1);
+    delta_y_list_linear=V_list_linear(2,:)-Veq(2);
+    delta_theta_list_linear=V_list_linear(3,:)-Veq(3);
 
+    %{
+    figure(1)
+
+    hold on
+    plot(t_list_linear,delta_x_list_linear,"r", "DisplayName","\Deltax linear")
+    plot(t_list_linear,delta_y_list_linear,"b", "DisplayName","\Deltay linear")
+    plot(t_list_linear,delta_theta_list_linear,"g", "DisplayName","\Delta\theta linear")
+    plot(t_list_nonlinear,delta_x_list_nonlinear,"r--", "DisplayName","\Deltax nonlinear")
+    plot(t_list_nonlinear,delta_y_list_nonlinear,"b--", "DisplayName","\Deltay nonlinear")
+    plot(t_list_nonlinear,delta_theta_list_nonlinear,"g--", "DisplayName","\Delta\theta nonlinear")
+    legend("Location","best")
+    xlim([0 5])
+    xlabel("time")
+    ylabel("displacement")
+    title("linear vs non linear from tiny pertubation \epsilon=0.0067")
+    %}
 
     Q   = -J_approx(4:6, 1:3);
     [U_modes, lambda] = eig(Q);                      
     w_n = real(diag(lambda));                 
     [omega_n, idx] = sort(sqrt(max(w_n,0)));
     U_modes = U_modes(:,idx);
-    epsilon=0.2;
 
-    x_modal = Veq(1)+epsilon*U_modes(1)*cos(omega_n*t_list);
-    y_modal = Veq(2)+epsilon*U_modes(2)*cos(omega_n*t_list);
-    theta_modal = Veq(3)+epsilon*U_modes(3)*cos(omega_n*t_list);
+    %x_modal = Veq(1)+epsilon*U_modes(1)*cos(omega_n*t_list_nonlinear);
+    %y_modal = Veq(2)+epsilon*U_modes(2)*cos(omega_n*t_list_nonlinear);
+    %theta_modal = Veq(3)+epsilon*U_modes(3)*cos(omega_n*t_list_nonlinear);
 
-    figure(2)
+    delta_x_modal = epsilon*U_modes(1)*cos(omega_n*t_list_nonlinear);
+    delta_y_modal = epsilon*U_modes(2)*cos(omega_n*t_list_nonlinear);
+    delta_theta_modal = epsilon*U_modes(3)*cos(omega_n*t_list_nonlinear);
+
+    figure()
     
-    subplot(2,1,1)
     hold on
-    plot(t_list,x_modal(1,:),'r',"DisplayName","x modal_1")
-    plot(t_list,x_modal(2,:),'r--',"DisplayName","x modal_2")
-    plot(t_list,x_modal(3,:),'r:',"DisplayName","x modal_3")
-    plot(t_list,y_modal(1,:),'b',"DisplayName","y modal_1")
-    plot(t_list,y_modal(2,:),'b--',"DisplayName","y modal_2")
-    plot(t_list,y_modal(3,:),'b:',"DisplayName","y modal_3")
+    plot(t_list_nonlinear,delta_x_modal(3,:),'r',"DisplayName","\Deltax modal")
+    plot(t_list_nonlinear,delta_y_modal(3,:),'b',"DisplayName","\Deltay modal")
+    plot(t_list_nonlinear,delta_theta_modal(3,:),'g',"DisplayName","\Delta\theta modal")
+    plot(t_list_nonlinear,delta_x_list_nonlinear,"r--", "DisplayName","\Deltax nonlinear")
+    plot(t_list_nonlinear,delta_y_list_nonlinear,"b--", "DisplayName","\Deltay nonlinear")
+    plot(t_list_nonlinear,delta_theta_list_nonlinear,"g--", "DisplayName","\Delta\theta nonlinear")
     legend("Location","best");
     xlabel("time")
-    ylabel("x and y modal");
-    subplot(2,1,2)
-    hold on
-    plot(t_list,theta_modal(1,:),'r',"DisplayName","theta modal_1")
-    plot(t_list,theta_modal(2,:),'r--',"DisplayName","theta modal_2")
-    plot(t_list,theta_modal(3,:),'r:',"DisplayName","theta modal_3")
-    legend("Location","best");
-    xlabel("time")
-    ylabel("theta modal");
+    ylabel("displacement");
+    xlim([0 5])
+    U_modes(3)
+    title("mode -0.0287")
 
-
-    
-
-    animate_simulation(t_list, X_list, box_params)
+    %animate_simulation(t_list_linear, V_list_linear, box_params)
 end
